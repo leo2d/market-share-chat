@@ -1,11 +1,14 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+import Login from './Pages/Login';
+
+const App = () => {
   return (
-    <div>
-      <h2>Here we go</h2>
-    </div>
+    <>
+      <Login />
+    </>
   );
-}
+};
 
 export default App;
