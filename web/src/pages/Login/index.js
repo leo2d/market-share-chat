@@ -20,7 +20,7 @@ const Login = () => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const response = await Api.post('/auth/sigin', loginData);
+    const response = await Api.post('/auth/sign_in', loginData);
 
     if (response.status === 200) {
       const token = response.headers['access-token'];
