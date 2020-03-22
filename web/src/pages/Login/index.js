@@ -20,9 +20,14 @@ const Login = () => {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const response = await Api.post('/auth/sign_in', loginData);
+    const response = await Api.post('/auth/sign_in', loginData).catch(error => {
+      if (error?.response?.status === 401) {
+        window.alert('Invalid login credentials. Please try again.');
+        return;
+      } else return error;
+    });
 
-    if (response.status === 200) {
+    if (response && response.status === 200) {
       const token = response.headers['access-token'];
       if (token) {
         localStorage.setItem(`u-${loginData.email}`, token);
