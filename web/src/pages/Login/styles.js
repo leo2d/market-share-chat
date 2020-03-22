@@ -16,6 +16,4 @@ export const LoginContainer = styled.div`
   display: flex;
   justify-content: center;
   padding: 60px;
-
-  background-color: #007bff;
 `;

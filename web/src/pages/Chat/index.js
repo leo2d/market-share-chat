@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, FormControl, Button, FormGroup } from 'react-bootstrap';
+import { Container, FormControl, Button } from 'react-bootstrap';
 
 import { ChatContainer, ChatSquare, InputSquare } from './styles';
 import Message from '../../components/Message';
@@ -7,55 +7,77 @@ import Message from '../../components/Message';
 const Chat = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([
-    { datetime: '', ower: 'James', text: 'sdfsdf sdaf asdf asdf sdf ' },
     {
+      id: 'g4fhfgh',
+      datetime: '',
+      ower: 'James',
+      text: 'sdfsdf sdaf asdf asdf sdf ',
+    },
+    {
+      id: 'df3gfyt',
       datetime: '',
       ower: 'Alexa',
       text: 'asasa s as dwdwewe e w asd asdas df sadf sf s',
     },
     {
+      id: 'awr6sdf',
       datetime: '',
       ower: 'Alexa',
       text: 'asasa s as dwdwewe e w asd asdas df sadf sf s',
     },
     {
+      id: 'zxcx2cv',
       datetime: '',
       ower: 'Alexa',
       text: 'asasa s as dwdwewe e w asd asdas df sadf sf s',
     },
     {
+      id: 'ffger',
       datetime: '',
       ower: 'Alexa',
       text: 'asasa s as dwdwewe e w asd asdas df sadf sf s',
     },
     {
+      id: 'we2q',
       datetime: '',
       ower: 'Alexa',
       text: 'asasa s as dwdwewe e w asd asdas df sadf sf s',
     },
     {
+      id: 'tyhyth',
       datetime: '',
       ower: 'Alexa',
       text: 'asasa s as dwdwewe e w asd asdas df sadf sf s',
     },
     {
+      id: 'dfgdfg',
       datetime: '',
       ower: 'Alexa',
       text: 'asasa s as dwdwewe e w asd asdas df sadf sf s',
     },
     {
+      id: 'asdsd',
       datetime: '',
       ower: 'Mary',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      text:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
   ]);
+
+  const handleClick = event => {
+    event.preventDefault();
+
+    console.log(message);
+
+    setMessage('');
+  };
 
   return (
     <Container>
       <ChatContainer>
         <ChatSquare>
           {messages.map(m => {
-            return <Message key={`${m.datetime}`} message={m} />;
+            return <Message key={m.id} message={m} />;
           })}
         </ChatSquare>
         <InputSquare>
@@ -66,7 +88,15 @@ const Chat = () => {
             type="text"
             placeholder="Type your message here"
           />
-          <Button variant="dark">Send</Button>
+          <Button
+            variant="dark"
+            type="button"
+            onClick={e => {
+              handleClick(e);
+            }}
+          >
+            Send
+          </Button>
         </InputSquare>
       </ChatContainer>
     </Container>

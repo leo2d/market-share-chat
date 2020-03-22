@@ -5,10 +5,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import history from './services/history';
 import Routes from './routes';
+import GlobalStyle from './styles/global';
 
 const App = () => {
   return (
     <Router history={history}>
+      <GlobalStyle />
       <Routes />
     </Router>
   );

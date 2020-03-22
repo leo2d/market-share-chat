@@ -8,7 +8,8 @@ export const ChatContainer = styled.div`
   width: 100%;
   height: 100%;
 
-  background-color: #007bff;
+  border-radius: 20px;
+  background-color: #1f2a67;
 `;
 
 export const ChatSquare = styled.div`
