@@ -7,7 +7,7 @@ import {
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { Response } from 'express';
-import { mapBodyToLoginDTO } from '../mappers/userMappings';
+import { mapBodyToLoginDTO, mapUserToUserDTO } from '../mappers/userMappings';
 import { stringIsValid } from '../../utils/stringUtils';
 import InjectTYPES from '../../constants/types/injectTypes';
 import UserService from '../../domain/user/services/userService';
@@ -42,7 +42,8 @@ export default class AuthController implements interfaces.Controller {
             'access-token': user.token,
           });
 
-          res.status(200).json(new CustomResponse(true, [], []));
+          const userDTO = mapUserToUserDTO(user);
+          res.status(200).json(new CustomResponse(true, [userDTO], null));
         } else {
           this.returnInvalidCredentials(res);
         }
