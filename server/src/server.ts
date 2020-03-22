@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import { InversifyExpressServer } from 'inversify-express-utils';
 
 import setupContainer from './infra/ioc/inversifyConfig';
@@ -16,9 +17,10 @@ import './presentation/controllers';
   const corsOptions = {
     exposedHeaders: ['access-token'],
   };
-  
+
   app.setConfig(app => {
     app.use(cors(corsOptions));
+    app.use(helmet());
     app.use(express.json());
   });
 
