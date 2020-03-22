@@ -13,8 +13,12 @@ import './presentation/controllers';
     rootPath: '/api',
   });
 
+  const corsOptions = {
+    exposedHeaders: ['access-token'],
+  };
+  
   app.setConfig(app => {
-    app.use(cors());
+    app.use(cors(corsOptions));
     app.use(express.json());
   });
 
