@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap';
 import { FormContainer, LoginContainer, TitleContainer } from './styles';
 import Api from '../../services/api';
+import Auth from '../../utils/auth';
 
 const Login = () => {
   const history = useHistory();
@@ -33,7 +34,7 @@ const Login = () => {
     if (response && response.status === 200) {
       const token = response.headers['access-token'];
       if (token) {
-        localStorage.setItem(`u-${loginData.email}`, token);
+        Auth.authenticate(token);
         history.push('/chat');
       }
     }

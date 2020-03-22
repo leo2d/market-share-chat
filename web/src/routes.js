@@ -1,14 +1,34 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Chat from './pages/Chat';
 import Login from './pages/Login';
+import Auth from './utils/auth';
 
-export default function Routes() {
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      Auth.isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/',
+          }}
+        />
+      )
+    }
+  />
+);
+
+const Routes = () => {
   return (
     <Switch>
       <Route path="/" exact component={Login} />
       <Route path="/login" exact component={Login} />
-      <Route path="/chat" component={Chat} />
+      <PrivateRoute path="/chat" component={Chat} />
     </Switch>
   );
-}
+};
+
+export default Routes;
