@@ -33,8 +33,9 @@ const Login = () => {
 
     if (response && response.status === 200) {
       const token = response.headers['access-token'];
-      if (token) {
-        Auth.authenticate(token);
+      const user = response?.data?.data[0];
+      if (token && user) {
+        Auth.authenticate(user, token);
         history.push('/chat');
       }
     }
