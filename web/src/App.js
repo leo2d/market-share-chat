@@ -1,13 +1,16 @@
 import React from 'react';
+import { Router } from 'react-router-dom';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Login from './pages/Login';
+import history from './services/history';
+import Routes from './routes';
 
 const App = () => {
   return (
-    <>
-      <Login />
-    </>
+    <Router history={history}>
+      <Routes />
+    </Router>
   );
 };
 

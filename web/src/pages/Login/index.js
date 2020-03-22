@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Container,
   FormGroup,
@@ -12,6 +13,8 @@ import { FormContainer, LoginContainer, TitleContainer } from './styles';
 import Api from '../../services/api';
 
 const Login = () => {
+  const history = useHistory();
+
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
@@ -31,6 +34,7 @@ const Login = () => {
       const token = response.headers['access-token'];
       if (token) {
         localStorage.setItem(`u-${loginData.email}`, token);
+        history.push('/chat');
       }
     }
   };
