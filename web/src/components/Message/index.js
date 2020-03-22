@@ -16,7 +16,7 @@ const Message = props => {
     <ItemContainer>
       <Container>
         <AuthorContainer>
-          <Author>{message.ower}</Author>
+          <Author>{message.author}</Author>
 
           <MessageDate>
             {message.datetime || `   -   ${new Date()}`}
