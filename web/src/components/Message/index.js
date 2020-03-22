@@ -10,8 +10,7 @@ import {
   MessageDate,
 } from './styles';
 
-const Message = props => {
-  const { message } = props;
+const Message = ({ message }) => {
   return (
     <ItemContainer>
       <Container>

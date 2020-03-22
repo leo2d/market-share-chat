@@ -25,12 +25,3 @@ export const ChatSquare = styled.div`
 
   background-color: #09242b;
 `;
-
-export const InputSquare = styled.div`
-  padding-top: 50px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`;

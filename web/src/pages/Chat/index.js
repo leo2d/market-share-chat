@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
-import { Container, FormControl, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+import { Container } from 'react-bootstrap';
 
-import { ChatContainer, ChatSquare, InputSquare } from './styles';
+import Api from '../../services/api';
+import { ChatContainer, ChatSquare } from './styles';
 import Message from '../../components/Message';
+import MessageInput from '../../components/MessageInput';
+
+let socket;
 
 const Chat = () => {
+  const [users, setUsers] = useState([]);
   const [message, setMessage] = useState('');
+  const [initialized, setInitialized] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 'g4fhfgh',
@@ -64,12 +71,39 @@ const Chat = () => {
     },
   ]);
 
-  const handleClick = event => {
+  const connectToRoom = () => {
+    socket.on('connect', data => {
+      socket.emit('join', 'marketShare');
+    });
+
+    setInitialized(true);
+  };
+
+  useEffect(() => {
+    console.log(Api.defaults.url);
+    socket = io(`${Api.defaults.url}`);
+
+    if (!initialized) {
+      connectToRoom();
+    }
+  }, [initialized]);
+
+  useEffect(() => {
+    socket.on('message', message => {
+      setMessages(messages => [...messages, message]);
+    });
+
+    socket.on('roomData', ({ users }) => {
+      setUsers(users);
+    });
+  }, []);
+
+  const sendMessage = event => {
     event.preventDefault();
 
-    console.log(message);
-
-    setMessage('');
+    if (message) {
+      socket.emit('sendMessage', message, () => setMessage(''));
+    }
   };
 
   return (
@@ -80,24 +114,11 @@ const Chat = () => {
             return <Message key={m.id} message={m} />;
           })}
         </ChatSquare>
-        <InputSquare>
-          <FormControl
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            required
-            type="text"
-            placeholder="Type your message here"
-          />
-          <Button
-            variant="dark"
-            type="button"
-            onClick={e => {
-              handleClick(e);
-            }}
-          >
-            Send
-          </Button>
-        </InputSquare>
+        <MessageInput
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
       </ChatContainer>
     </Container>
   );
