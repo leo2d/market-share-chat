@@ -2,8 +2,8 @@ import React from 'react';
 
 import {
   Container,
-  OwerContainer,
-  Ower,
+  AuthorContainer,
+  Author,
   MessageContainer,
   MessageText,
   ItemContainer,
@@ -15,11 +15,13 @@ const Message = props => {
   return (
     <ItemContainer>
       <Container>
-        <OwerContainer>
-          <Ower>{message.ower}</Ower>
-          
-          <MessageDate>{message.datetime || `   -   ${new Date()}`}</MessageDate>
-        </OwerContainer>
+        <AuthorContainer>
+          <Author>{message.ower}</Author>
+
+          <MessageDate>
+            {message.datetime || `   -   ${new Date()}`}
+          </MessageDate>
+        </AuthorContainer>
         <MessageContainer>
           <MessageText>{message.text}</MessageText>
         </MessageContainer>

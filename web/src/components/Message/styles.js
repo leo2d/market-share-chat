@@ -10,11 +10,11 @@ export const Container = styled.div`
   background-color: #fff;
 `;
 
-export const OwerContainer = styled.div`
+export const AuthorContainer = styled.div`
   padding: 2px;
 `;
 
-export const Ower = styled.span`
+export const Author = styled.span`
   font-style: italic;
   font-weight: bold;
   font-size: 14px;
