@@ -4,10 +4,19 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-
+    "start": "ts-node src/server.ts",
+    "debug": "nodemon --inspect=9228 src/server.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "inversify": "^5.0.1",
+    "inversify-express-utils": "^6.3.2",
+    "reflect-metadata": "^0.1.13"
+  },
   "devDependencies": {
+    "@types/express": "^4.17.3",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "eslint": "^6.8.0",

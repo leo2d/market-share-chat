@@ -1,0 +1,1 @@
+const rabbitMqAddress = 'http://localhost:5672/';
