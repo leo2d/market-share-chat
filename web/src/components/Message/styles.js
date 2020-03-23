@@ -7,11 +7,14 @@ export const ItemContainer = styled.div`
 export const Container = styled.div`
   padding: 3px;
   border-radius: 10px;
-  background-color: #fff;
+
+  background-color: ${props => (props.owner ? '#56D2B0' : '#fff')};
 `;
 
 export const AuthorContainer = styled.div`
   padding: 2px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const Author = styled.span`
@@ -28,6 +31,7 @@ export const MessageText = styled.span`
   font-size: 12px;
 `;
 export const MessageDate = styled.span`
+  margin-left: 2px;
   font-size: 10px;
-  color: #90a4ae;
+  color: #09242b;
 `;

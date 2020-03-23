@@ -9,17 +9,17 @@ import {
   ItemContainer,
   MessageDate,
 } from './styles';
+import Auth from '../../utils/auth';
 
 const Message = ({ message }) => {
+  const { user } = Auth.getUserData();
+  const isCurrentUserOwner = message.author === user.username;
   return (
     <ItemContainer>
-      <Container>
+      <Container owner={isCurrentUserOwner}>
         <AuthorContainer>
-          <Author>{message.author}</Author>
-
-          <MessageDate>
-            {message.datetime || `   -   ${new Date()}`}
-          </MessageDate>
+          <Author>{` ~ ${message.author}`}</Author>
+          <MessageDate>{`${message.sentAt}`}</MessageDate>
         </AuthorContainer>
         <MessageContainer>
           <MessageText>{message.text}</MessageText>
