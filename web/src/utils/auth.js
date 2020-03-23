@@ -2,7 +2,7 @@ const key = 'userData';
 
 const Auth = {
   isAuthenticated() {
-    const userData = this.getUser();
+    const userData = this.getUserData();
     return userData && userData.token !== '';
   },
   authenticate(user, token) {
@@ -12,7 +12,7 @@ const Auth = {
   signOut() {
     localStorage.removeItem(key);
   },
-  getUser() {
+  getUserData() {
     const data = localStorage.getItem(key);
     if (data) {
       const userData = JSON.parse(data);
