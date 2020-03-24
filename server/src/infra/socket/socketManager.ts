@@ -1,5 +1,5 @@
 import SocketIO from 'socket.io';
-import * as MessageBuilder from '../messages/messageBuilder';
+import * as MessageBuilder from '../../presentation/messages/messageBuilder';
 import * as CommandUtils from '../../utils/commandUtils';
 
 export default class SocketManager {
@@ -59,7 +59,6 @@ export default class SocketManager {
 
     if (commandISValid && sotckCode) {
       //call the bot endpoint
-      console.log('ok is valid');
       const responseMessage = MessageBuilder.buildReceivedValidCommandMsg(
         sotckCode
       );

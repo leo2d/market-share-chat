@@ -7,7 +7,7 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 
 import setupContainer from './infra/ioc/inversifyConfig';
 import './presentation/controllers';
-import SocketManager from './presentation/socket/socketManager';
+import SocketManager from './infra/socket/socketManager';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 (async () => {
