@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { Container } from 'react-bootstrap';
 
@@ -12,7 +12,7 @@ import { isCommand } from '../../utils/commandUtils';
 let socket;
 
 const Chat = () => {
-  const [user, setUser] = useState(Auth.getUserData().user);
+  const [user] = useState(Auth.getUserData().user);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
@@ -32,7 +32,7 @@ const Chat = () => {
     socket.on('command', ({ message }) => {
       setMessages(messages => [...messages, message]);
     });
-  }, []);
+  }, [user]);
 
   const sendMessage = event => {
     event.preventDefault();
@@ -60,9 +60,7 @@ const Chat = () => {
       <ChatContainer>
         <ChatSquare>
           {messages.map(m => {
-            if (m) {
-              return <Message key={m.id} message={m} />;
-            }
+            return <Message key={m.id} message={m} />;
           })}
         </ChatSquare>
         <MessageInput
