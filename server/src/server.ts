@@ -8,6 +8,7 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import setupContainer from './infra/ioc/inversifyConfig';
 import './presentation/controllers';
 import SocketManager from './infra/socket/socketManager';
+import { port } from './config/serverConfig';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 (async () => {
@@ -28,7 +29,6 @@ import SocketManager from './infra/socket/socketManager';
 
   const app = server.build();
 
-  const port = 3300;
   const serverInstance = app.listen(port);
 
   const socketIOServer = SocketIO(serverInstance);
