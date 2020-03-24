@@ -7,6 +7,7 @@ import Message from '../../components/Message';
 import MessageInput from '../../components/MessageInput';
 import Auth from '../../utils/auth';
 import serverURL from '../../serverUrl';
+import { isCommand } from '../../utils/commandUtils';
 
 let socket;
 
@@ -27,6 +28,10 @@ const Chat = () => {
     socket.on('message', ({ message }) => {
       setMessages(messages => [...messages, message]);
     });
+
+    socket.on('command', ({ message }) => {
+      setMessages(messages => [...messages, message]);
+    });
   }, []);
 
   const sendMessage = event => {
@@ -40,7 +45,11 @@ const Chat = () => {
         sentAt: new Date(),
       };
 
-      socket.emit('message', newMessage);
+      if (isCommand(message)) {
+        socket.emit('command', newMessage);
+      } else {
+        socket.emit('message', newMessage);
+      }
 
       setMessage('');
     }
