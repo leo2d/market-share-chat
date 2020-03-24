@@ -8,7 +8,8 @@ export const Container = styled.div`
   padding: 3px;
   border-radius: 10px;
 
-  background-color: ${props => (props.owner ? '#56D2B0' : '#fff')};
+  background-color: ${props =>
+    props.owner ? '#56D2B0' : props.botMessage ? '#E9524A' : '#fff'};
 `;
 
 export const AuthorContainer = styled.div`

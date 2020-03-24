@@ -14,9 +14,10 @@ import Auth from '../../utils/auth';
 const Message = ({ message }) => {
   const { user } = Auth.getUserData();
   const isCurrentUserOwner = message.author === user.username;
+  const isFromBOT = message.author === 'Market BOT';
   return (
     <ItemContainer>
-      <Container owner={isCurrentUserOwner}>
+      <Container owner={isCurrentUserOwner} botMessage= {isFromBOT}>
         <AuthorContainer>
           <Author>{` ~ ${message.author}`}</Author>
           <MessageDate>{`${message.sentAt}`}</MessageDate>
