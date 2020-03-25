@@ -9,6 +9,8 @@ import setupContainer from './infra/ioc/inversifyConfig';
 import './presentation/controllers';
 import SocketManager from './infra/socket/socketManager';
 import { port } from './config/serverConfig';
+import InjectTYPES from './constants/types/injectTypes';
+import BotService from './infra/http/botService';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 (async () => {
@@ -33,7 +35,10 @@ import { port } from './config/serverConfig';
 
   const socketIOServer = SocketIO(serverInstance);
 
-  SocketManager.manageServerEvents(socketIOServer);
+  const botService = container.get<BotService>(InjectTYPES.services.BotService);
+
+  const socketManager = new SocketManager(socketIOServer, botService);
+  socketManager.manageServerEvents();
 
   console.log(`Server running at http://127.0.0.1:${port}/`);
 })();

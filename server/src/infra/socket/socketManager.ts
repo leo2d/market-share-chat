@@ -1,68 +1,78 @@
 import SocketIO from 'socket.io';
 import * as MessageBuilder from '../../presentation/messages/messageBuilder';
 import * as CommandUtils from '../../utils/commandUtils';
+import BotService from '../http/botService';
+import QuoteRequestDTO from '../http/quoteRequestDTO';
+import Room from '../../domain/chat/entities/room';
+import { inject } from 'inversify';
+import InjectTYPES from '../../constants/types/injectTypes';
 
 export default class SocketManager {
-  private static getDefaultRoom() {
-    return {
-      id: '304134d3-a8dc-451f-857f-bd44c89e1ed4',
-      name: 'market-room',
-    };
+  private readonly botService: BotService;
+  private readonly socketIOServer: SocketIO.Server;
+
+  private readonly defaultRoom: Room;
+
+  constructor(socketIOServer: SocketIO.Server, botService: BotService) {
+    this.socketIOServer = socketIOServer;
+    this.botService = botService;
+
+    this.defaultRoom = this.defaultRoom = new Room();
+    this.defaultRoom.id = '304134d3-a8dc-451f-857f-bd44c89e1ed4';
+    this.defaultRoom.name = 'market-room';
   }
 
-  private static onJoin(socket: SocketIO.Socket, user: any, room: any): void {
-    const defaultRoom = this.getDefaultRoom();
-
-    socket.join(defaultRoom.id);
+  private onJoin(socket: SocketIO.Socket, user: any, room: any): void {
+    socket.join(this.defaultRoom.id);
     socket.emit('message', {
       message: MessageBuilder.buildWelcomeMessage(user.username),
     });
 
-    socket.broadcast.to(defaultRoom.id).emit('message', {
+    socket.broadcast.to(this.defaultRoom.id).emit('message', {
       message: MessageBuilder.buildNewUserJoinedMsg(user.username),
     });
   }
 
-  private static onDisconnect(socket: SocketIO.Socket) {
+  private onDisconnect(socket: SocketIO.Socket) {
     console.log(`Client ${socket.id} has disconnected`);
   }
 
-  private static onMessage(
-    socketIO: SocketIO.Server,
-    socket: SocketIO.Socket,
-    message: any
-  ): void {
-    const defaultRoom = this.getDefaultRoom();
-
+  private onMessage(socket: SocketIO.Socket, message: any): void {
     console.log(
       `Received message from client: ${socket.id} user: ${message.author}`
     );
-    socketIO.to(defaultRoom.id).emit('message', { message });
+    this.socketIOServer.to(this.defaultRoom.id).emit('message', { message });
   }
 
-  private static onCommand(
-    socketIO: SocketIO.Server,
+  private async onCommand(
     socket: SocketIO.Socket,
     message: any
-  ): void {
-    const defaultRoom = this.getDefaultRoom();
-
+  ): Promise<void> {
     console.log(
       `Received command ${message.text} from client: ${socket.id} user: ${message.author}`
     );
 
     const commandKey = CommandUtils.getCommand(message.text);
-    const sotckCode = CommandUtils.getStockCode(message.text);
+    const stockCode = CommandUtils.getStockCode(message.text);
 
     const commandISValid =
       commandKey && CommandUtils.isAValidCommand(commandKey);
 
-    if (commandISValid && sotckCode) {
-      //call the bot endpoint
-      const responseMessage = MessageBuilder.buildReceivedValidCommandMsg(
-        sotckCode
-      );
-      socketIO.to(defaultRoom.id).emit('command', { message: responseMessage });
+    if (commandISValid && stockCode) {
+      const quoteRequest: QuoteRequestDTO = {
+        roomId: this.defaultRoom.id,
+        stockCode,
+      };
+
+      const success = await this.botService.sendToBot(quoteRequest);
+
+      const responseMessage = success
+        ? MessageBuilder.buildReceivedValidCommandMsg(stockCode)
+        : MessageBuilder.buildFailedProccessMsg(stockCode);
+
+      this.socketIOServer
+        .to(this.defaultRoom.id)
+        .emit('command', { message: responseMessage });
     } else {
       const responseMessage = !commandISValid
         ? MessageBuilder.buildInvalidCommandMsg(message.text)
@@ -72,8 +82,8 @@ export default class SocketManager {
     }
   }
 
-  public static manageServerEvents(socketIO: SocketIO.Server): void {
-    socketIO.on('connection', (socket: SocketIO.Socket) => {
+  public manageServerEvents(): void {
+    this.socketIOServer.on('connection', (socket: SocketIO.Socket) => {
       console.log(`Client ${socket.id}  connected`);
 
       socket.on('join', ({ user, room }) => {
@@ -81,11 +91,11 @@ export default class SocketManager {
       });
 
       socket.on('message', message => {
-        this.onMessage(socketIO, socket, message);
+        this.onMessage(socket, message);
       });
 
       socket.on('command', message => {
-        this.onCommand(socketIO, socket, message);
+        this.onCommand(socket, message);
       });
 
       socket.on('disconnect', event => {
