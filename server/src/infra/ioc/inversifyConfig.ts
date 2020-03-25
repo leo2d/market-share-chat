@@ -10,6 +10,7 @@ import User from '../../domain/user/user';
 import { getDbConnection } from '../data/getConnection';
 import { getUserRepository } from '../data/repositories/userRepository';
 import BotService from '../http/botService';
+import RabbitMQService from '../queue/rabbitMqService';
 
 const bindings = new AsyncContainerModule(async bind => {
   await getDbConnection(connectionConfig);
@@ -28,6 +29,10 @@ const bindings = new AsyncContainerModule(async bind => {
 
   bind<BotService>(InjectTYPES.services.BotService)
     .to(BotService)
+    .inTransientScope();
+
+  bind<RabbitMQService>(InjectTYPES.services.RabbitMQService)
+    .to(RabbitMQService)
     .inTransientScope();
 });
 

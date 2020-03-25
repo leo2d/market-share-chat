@@ -11,6 +11,7 @@ import SocketManager from './infra/socket/socketManager';
 import { port } from './config/serverConfig';
 import InjectTYPES from './constants/types/injectTypes';
 import BotService from './infra/http/botService';
+import RabbitMQService from './infra/queue/rabbitMqService';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 (async () => {
@@ -40,5 +41,13 @@ import BotService from './infra/http/botService';
   const socketManager = new SocketManager(socketIOServer, botService);
   socketManager.manageServerEvents();
 
+  const rabbitMQService = container.get<RabbitMQService>(
+    InjectTYPES.services.RabbitMQService
+  );
+  rabbitMQService.listenForMessages(
+    socketManager.onReceiveMessageFromBroker.bind(socketManager)
+  );
+
   console.log(`Server running at http://127.0.0.1:${port}/`);
+  
 })();

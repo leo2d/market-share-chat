@@ -32,15 +32,30 @@ export const buildInvalidStockCodeMsg = (message: string): MessageBase => {
 };
 
 export const buildReceivedValidCommandMsg = (
-  sotckCode: string
+  stockCode: string
 ): MessageBase => {
   return buildBOTMessage(
-    `Yeah! 😃\nStock Code "${sotckCode}" received. We'll proccess it soon.`
+    `Yeah! 😃\nStock Code "${stockCode}" received. We'll proccess it soon.`
   );
 };
 
-export const buildFailedProccessMsg = (sotckCode: string): MessageBase => {
+export const buildCanNotProccessMsg = (stockCode: string): MessageBase => {
   return buildBOTMessage(
-    `Sorry 😕\nStock Code "${sotckCode}" received. But we can't proccess it for now...`
+    `Sorry 😕\nStock Code "${stockCode}" received. But we can't proccess it for now...`
+  );
+};
+
+export const buildProccessErrorMsg = (stockCode: string): MessageBase => {
+  return buildBOTMessage(
+    `Bad news... 😕\nWe could not find information for stock code "${stockCode}".`
+  );
+};
+
+export const buildProccessSuccessMsg = (
+  stockCode: string,
+  quote: number
+): MessageBase => {
+  return buildBOTMessage(
+    `We got it!! 😃\n${stockCode.toUpperCase()} quote is $${quote} per share`
   );
 };

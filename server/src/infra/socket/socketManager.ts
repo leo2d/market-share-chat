@@ -4,8 +4,7 @@ import * as CommandUtils from '../../utils/commandUtils';
 import BotService from '../http/botService';
 import QuoteRequestDTO from '../http/quoteRequestDTO';
 import Room from '../../domain/chat/entities/room';
-import { inject } from 'inversify';
-import InjectTYPES from '../../constants/types/injectTypes';
+import ProccessMessageDTO from '../queue/proccessMessageDTO';
 
 export default class SocketManager {
   private readonly botService: BotService;
@@ -17,6 +16,7 @@ export default class SocketManager {
     this.socketIOServer = socketIOServer;
     this.botService = botService;
 
+    //solve this hard code by creating a multiroom feature and store in DB
     this.defaultRoom = this.defaultRoom = new Room();
     this.defaultRoom.id = '304134d3-a8dc-451f-857f-bd44c89e1ed4';
     this.defaultRoom.name = 'market-room';
@@ -68,7 +68,7 @@ export default class SocketManager {
 
       const responseMessage = success
         ? MessageBuilder.buildReceivedValidCommandMsg(stockCode)
-        : MessageBuilder.buildFailedProccessMsg(stockCode);
+        : MessageBuilder.buildCanNotProccessMsg(stockCode);
 
       this.socketIOServer
         .to(this.defaultRoom.id)
@@ -102,5 +102,16 @@ export default class SocketManager {
         this.onDisconnect(socket);
       });
     });
+  }
+
+  public onReceiveMessageFromBroker(brokerMessage: ProccessMessageDTO): void {
+    const message = brokerMessage.success
+      ? MessageBuilder.buildProccessSuccessMsg(
+          brokerMessage.requestedStock,
+          brokerMessage.quote
+        )
+      : MessageBuilder.buildProccessErrorMsg(brokerMessage.requestedStock);
+
+    this.socketIOServer.to(brokerMessage.roomId).emit('command', { message });
   }
 }
