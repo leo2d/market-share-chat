@@ -36,8 +36,4 @@ export default class Quote {
     this.Close = Close;
     this.Volume = Volume;
   }
-
-  public buildStockQuoteMessage(): string {
-    return `${this.Symbol} quote is $${this.Close} per share`;
-  }
 }

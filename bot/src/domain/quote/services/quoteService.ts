@@ -26,17 +26,16 @@ export default class QuoteService {
       quoteRequest.stockCode
     );
 
-    const errorMessage = `Error: We could not find information for stock code "${quoteRequest.stockCode}".`;
-
     const queueMessage: ProccessMessageDTO = {
       roomId: quoteRequest.roomId,
+      requestedStock: quoteRequest.stockCode,
       success: false,
-      message: errorMessage,
+      quote: 0,
     };
 
     if (quote) {
       queueMessage.success = true;
-      queueMessage.message = quote.buildStockQuoteMessage();
+      queueMessage.quote = quote.Close;
     }
 
     await this.queueService.addMessage(queueMessage);
