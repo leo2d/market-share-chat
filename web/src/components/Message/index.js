@@ -17,9 +17,9 @@ const Message = ({ message }) => {
   const isFromBOT = message.author === 'Market BOT';
   return (
     <ItemContainer>
-      <Container owner={isCurrentUserOwner} botMessage= {isFromBOT}>
+      <Container owner={isCurrentUserOwner} botMessage={isFromBOT}>
         <AuthorContainer>
-          <Author>{` ~ ${message.author}`}</Author>
+          <Author botMessage={isFromBOT}>{` ~ ${message.author}`}</Author>
           <MessageDate>{`${message.sentAt}`}</MessageDate>
         </AuthorContainer>
         <MessageContainer>
