@@ -57,4 +57,6 @@ export const parseCSVStringToQuote = async (
 export const isCSVstringValid = (csvContent: string): boolean => {
   if (!csvContent || csvContent === '' || csvContent.includes('N/D'))
     return false;
+
+  return true;
 };
