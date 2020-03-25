@@ -1,16 +1,18 @@
 import {
   controller,
-  httpGet,
   response,
-  queryParam,
+  requestBody,
   interfaces,
+  httpPost,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { Response } from 'express';
-import QuoteService from '../../domain/quote/services/quoteService';
-import InjectTYPES from '../../constants/types/injectTypes';
 
-@controller('/stock')
+import InjectTYPES from '../../constants/types/injectTypes';
+import QuoteService from '../../domain/quote/services/quoteService';
+import QuoteRequestDTO from '../../domain/quote/dtos/quoteRequestDTO';
+
+@controller('/quotes')
 export default class QuoteController implements interfaces.Controller {
   private readonly quoteService: QuoteService;
 
@@ -21,17 +23,19 @@ export default class QuoteController implements interfaces.Controller {
     this.quoteService = quoteService;
   }
 
-  @httpGet('/')
+  @httpPost('/')
   async proccessCode(
-    @queryParam('stock') stock: string,
+    @requestBody() quoteRequest: QuoteRequestDTO,
     @response() res: Response
   ): Promise<void> {
     {
-      if (!stock || stock.trim() === '') {
+      if (!quoteRequest || quoteRequest.stockCode.trim() === '') {
         res.status(400);
       } else {
-        this.quoteService.proccessStockCode(stock);
-        res.status(202);
+        //Missing "await" here is intentional.
+        //The client does not have to wait for this.
+        this.quoteService.proccessStockCode(quoteRequest);
+        res.status(204);
       }
     }
   }

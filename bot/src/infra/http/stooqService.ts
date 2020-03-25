@@ -2,7 +2,7 @@ import { injectable, inject } from 'inversify';
 import { AxiosInstance } from 'axios';
 import InjectTYPES from '../../constants/types/injectTypes';
 import { getStooqEndPoint } from '../../config/externals/endpoints';
-import { parseCSVStringToQuote } from '../../utils/csvUtils';
+import * as CsvUtils from '../../utils/csvUtils';
 import Quote from '../../domain/quote/quote';
 
 @injectable()
@@ -27,6 +27,8 @@ export default class StooqService {
   async getStockInfoByCode(sotckCode: string): Promise<Quote> {
     const csvContent = await this.getCsvByStockCode(sotckCode);
 
-    return await parseCSVStringToQuote(csvContent);
+    if (!CsvUtils.isCSVstringValid(csvContent)) return null;
+
+    return await CsvUtils.parseCSVStringToQuote(csvContent);
   }
 }
