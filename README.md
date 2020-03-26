@@ -16,6 +16,10 @@ the bot.
 - Have the chat messages ordered by their timestamps and show only the last 50
 messages.
 
+### In discussion:
+- Multiple chat rooms and an option to choose a room or create a new room
+- A screen to new users signup.
+
 ### To run this project, follow these steps :
 
 - [Backend BOT Api]( https://github.com/leo2d/market-share-chat/tree/master/bot/README.md "Bot") 
