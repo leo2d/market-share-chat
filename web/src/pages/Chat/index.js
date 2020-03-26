@@ -8,6 +8,7 @@ import MessageInput from '../../components/MessageInput';
 import Auth from '../../utils/auth';
 import serverURL from '../../serverUrl';
 import { isCommand } from '../../utils/commandUtils';
+import { formatDateToLT } from '../../utils/dateUtils';
 
 let socket;
 
@@ -38,13 +39,15 @@ const Chat = () => {
   }, [user]);
 
   const manageMessages = (currentMessages, newMesage) => {
+    const message = { ...newMesage, sentAt: formatDateToLT(newMesage.sentAt) };
+
     if (currentMessages.length === MESSAGESLIMIT) {
       let showedMsgs = currentMessages;
       showedMsgs.splice(0, 1);
 
-      return [...showedMsgs, newMesage];
+      return [...showedMsgs, message];
     }
-    return [...currentMessages, newMesage];
+    return [...currentMessages, message];
   };
 
   const sendMessage = event => {
