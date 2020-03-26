@@ -18,7 +18,9 @@ messages.
 
 ### In discussion:
 - Multiple chat rooms and an option to choose a room or create a new room
-- A screen to new users signup.
+- A screen to new users sign up
+- Store room and chat data on DB (encrypt messages)
+- Show online users on screen
 
 ### To run this project, follow these steps :
 
