@@ -1,4 +1,4 @@
-# Market Share Chat
+# Market Share Chat - Web Client
 
 ### Into the stack:
 
