@@ -20,6 +20,11 @@ the bot.
 - Store room and chat data on DB (encrypt messages)
 - Show online users on screen
 
+### Known mistakes:
+- Messaes Id is hardcoded
+- Default room info is harcoded
+- No unit tests
+
 ### To run this project, follow these steps :
 
 - [Backend BOT Api]( https://github.com/leo2d/market-share-chat/tree/master/bot/README.md "Bot") 
