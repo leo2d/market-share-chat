@@ -11,12 +11,10 @@
 - The Bot will parse the received CSV file and then post a message to a RabbitMQ queue with the quote info.
 - Then RabbitMQ will send the message to the subscriber( chat server) and the chat server will build a message and send to the chatroom using the following format: ``“{stock} quote is ${close value} per share”``. This message owner will be
 the bot.
+- Chat messages are limited to the last 50 messages. 
 
-### Work in progress:
-- Have the chat messages ordered by their timestamps and show only the last 50
-messages.
 
-### In discussion:
+### Pssible future features:
 - Multiple chat rooms and an option to choose a room or create a new room
 - A screen to new users sign up
 - Store room and chat data on DB (encrypt messages)
