@@ -82,7 +82,7 @@ export default class SocketManager {
         ? MessageBuilder.buildInvalidCommandMsg(message.text)
         : MessageBuilder.buildInvalidStockCodeMsg(message.text);
 
-      socket.emit('message', { message: responseMessage });
+      socket.emit('command', { message: responseMessage });
     }
   }
 
