@@ -14,14 +14,14 @@ the bot.
 - Chat messages are limited to the last 50 messages. 
 
 
-### Pssible future features:
+### Possible future features:
 - Multiple chat rooms and an option to choose a room or create a new room
 - A screen to new users sign up
 - Store room and chat data on DB (encrypt messages)
 - Show online users on screen
 
 ### Known mistakes:
-- Messaes Id is hardcoded
+- Message Id is hardcoded
 - Default room info is harcoded
 - No unit tests
 
