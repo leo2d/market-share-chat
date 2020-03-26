@@ -1,3 +1,5 @@
+# Market Share Chat
+
 ### Into the stack:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using __React Js 16.13.1__ and Hooks
