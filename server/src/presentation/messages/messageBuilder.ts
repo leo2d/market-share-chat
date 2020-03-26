@@ -21,6 +21,10 @@ export const buildNewUserJoinedMsg = (username: string): MessageBase => {
   return buildBOTMessage(`${username} has joined! 👊`);
 };
 
+export const buildUserLeftMsg = (username: string): MessageBase => {
+  return buildBOTMessage(`${username} left 👋`);
+};
+
 export const buildInvalidCommandMsg = (command: string): MessageBase => {
   return buildBOTMessage(`Hmmm... 🤨\n"${command}" is NOT a valid command!`);
 };

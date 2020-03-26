@@ -35,6 +35,10 @@ export default class SocketManager {
 
   private onDisconnect(socket: SocketIO.Socket) {
     console.log(`Client ${socket.id} has disconnected`);
+
+    socket.broadcast.to(this.defaultRoom.id).emit('message', {
+      message: MessageBuilder.buildUserLeftMsg('someone'),
+    });
   }
 
   private onMessage(socket: SocketIO.Socket, message: any): void {
