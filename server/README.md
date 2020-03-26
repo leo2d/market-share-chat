@@ -47,19 +47,6 @@ This project use some popular libraries:
 
         
         ```
-    4. Setup default users: Run the file **user.sql** ( _src/scripts/user.sql_ ) into your database.
-        Afer Doing it you will have 2 users i your database: 
-        ``` 
-        pedro: {
-          email: pedro@mail.com
-          password: passpedro
-        },
-        james: {
-          email: james@mail.com
-          password: passjames
-        }
-        ```
-        ***NOTE: You will use these users to login on chat***
     
 4. Setup the RabbitMQ connection
     1. Open the file **queueConfig.ts** in _src/config/queue/queueConfig.ts_
@@ -100,7 +87,21 @@ This project use some popular libraries:
         
         ```
 6. Finally you can run __yarn debug__ or __npm run debug__ to run in debug mode with nodemon or just __yarn start__ or __npm start__ to start the application
-7. Optional: Change the app port
+
+7. Setup default users: After run the application, the ORM will create the tables on DB. Then run the file **user.sql** ( _src/scripts/user.sql_ ) into your database to insert default users.
+        Afer Doing it you will have 2 users i your database: 
+        ``` 
+        pedro: {
+          email: pedro@mail.com
+          password: passpedro
+        },
+        james: {
+          email: james@mail.com
+          password: passjames
+        }
+        ```
+        ***NOTE: You will use these users to login on chat***
+8. Optional: Change the app port
     1. For default this app will runs at port `3300` but you can change editting the value of the variable `port` in the **serverConfig.ts** file in src/config/serverConfig.ts.ts  
         For example: 
         ```javascript
