@@ -1,4 +1,4 @@
-# Market Share Chat
+# Market Share Chat - Chat API
 
 ### Into the stack:
 
@@ -94,13 +94,13 @@ This project use some popular libraries:
          
         ```javascript
 
-        //queueConfig.ts
+        //endpoints.ts
         
           export const botApiAddress = 'http://127.0.0.1:3200/api/'; //change address and port here, but keep the '/api/'
         
         ```
-5. Finally you can run __yarn debug__ or __npm run debug__ to run in debug mode with nodemon or just __yarn start__ or __npm start__ to start the application
-6. Optional: Change the app port
+6. Finally you can run __yarn debug__ or __npm run debug__ to run in debug mode with nodemon or just __yarn start__ or __npm start__ to start the application
+7. Optional: Change the app port
     1. For default this app will runs at port `3300` but you can change editting the value of the variable `port` in the **serverConfig.ts** file in src/config/serverConfig.ts.ts  
         For example: 
         ```javascript
@@ -111,4 +111,4 @@ This project use some popular libraries:
         
         ```
 
-
+***IMPORTANT***: Every time you change the BOT address or port you'll need to update this info like showed on step 5. In the same way, every time you change the chat API address or port you'll need to update that info on the frontend project. 
