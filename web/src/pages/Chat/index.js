@@ -16,23 +16,36 @@ const Chat = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  const MESSAGESLIMIT = 50;
+
   useEffect(() => {
     socket = io.connect(serverURL);
 
-    socket.emit('join', { user, room: 'market-room' }, error => {
+    socket.emit('join', { user, room: {} }, error => {
       if (error) {
-        alert(error);
+        console.log(error);
+        window.alert(`Oooh!\n Can't Join this room now =/ `);
       }
     });
 
     socket.on('message', ({ message }) => {
-      setMessages(messages => [...messages, message]);
+      setMessages(messages => manageMessages(messages, message));
     });
 
     socket.on('command', ({ message }) => {
-      setMessages(messages => [...messages, message]);
+      setMessages(messages => manageMessages(messages, message));
     });
   }, [user]);
+
+  const manageMessages = (currentMessages, newMesage) => {
+    if (currentMessages.length === MESSAGESLIMIT) {
+      let showedMsgs = currentMessages;
+      showedMsgs.splice(0, 1);
+
+      return [...showedMsgs, newMesage];
+    }
+    return [...currentMessages, newMesage];
+  };
 
   const sendMessage = event => {
     event.preventDefault();
