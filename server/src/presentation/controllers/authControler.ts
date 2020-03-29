@@ -4,6 +4,8 @@ import {
   response,
   requestBody,
   interfaces,
+  httpPatch,
+  queryParam,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { Response } from 'express';
@@ -71,6 +73,24 @@ export default class AuthController implements interfaces.Controller {
 
         if (user) this.returnAuthenticated(res, user);
         else this.returnInvalidCredentials(res);
+      }
+    } catch (error) {
+      res.status(500).json(new CustomResponse(false, null, [error.message]));
+    }
+  }
+
+  @httpPatch('/sign_out')
+  async signOut(
+    @queryParam('userId') userId: string,
+    @response() res: Response
+  ): Promise<void> {
+    try {
+      if (!stringIsValid(userId)) {
+        res.status(400);
+      } else {
+        const success = await this.userService.signOut(userId);
+
+        if (success) res.status(204);
       }
     } catch (error) {
       res.status(500).json(new CustomResponse(false, null, [error.message]));

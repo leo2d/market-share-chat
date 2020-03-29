@@ -62,4 +62,13 @@ export default class UserService {
 
     return true;
   }
+
+  async signOut(userId: string): Promise<boolean> {
+    const updated = await this.userRepository.update(
+      { id: userId },
+      { token: null }
+    );
+
+    return updated.affected ? true : false;
+  }
 }
