@@ -9,9 +9,10 @@ const GlobalStyle = createGlobalStyle`
     }
 
     #root{
-        padding: 0 20px 50px ;
         margin: 0 auto;
-        max-width: 1020px;
+        
+        /* padding: 0 20px 50px;
+        max-width: 1020px; */
     }
 
     button{
