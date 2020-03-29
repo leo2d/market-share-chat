@@ -1,87 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-  Container,
-  FormGroup,
-  FormControl,
-  FormLabel,
-  Button,
-  Form,
-  ModalTitle,
-} from 'react-bootstrap';
-import { FormContainer, LoginContainer, TitleContainer } from './styles';
+import { Container } from 'react-bootstrap';
+import { AuthContainer } from './styles';
 import Api from '../../services/api';
 import Auth from '../../utils/auth';
+import AuthForm from '../../components/AuthForm';
 
 const Login = () => {
   const history = useHistory();
 
-  const [loginData, setLoginData] = useState({
+  const [userData, setUserData] = useState({
     email: '',
     password: '',
+    username: '',
   });
 
-  const handleSubmit = async event => {
-    event.preventDefault();
+  const [isLogin, setIsLogin] = useState(true);
 
-    const response = await Api.post('/auth/sign_in', loginData).catch(error => {
-      if (error?.response?.status === 401) {
-        window.alert('Invalid login credentials. Please try again.');
+  useEffect(() => {
+    window.document.title = isLogin
+      ? 'Log In - Market share'
+      : 'Sign Up - Market share';
+  });
+
+  const onResponseSuccess = response => {
+    const token = response.headers['access-token'];
+    const user = response?.data?.data[0];
+    if (token && user) {
+      Auth.authenticate(user, token);
+      history.push('/chat');
+    }
+  };
+
+  const loginSubmit = async _ => {
+    const { email, password } = userData;
+    const response = await Api.post('/auth/sign_in', { email, password }).catch(
+      error => {
+        if (error?.response?.status === 401) {
+          window.alert('Invalid login credentials. Please try again.');
+          return;
+        } else return error;
+      }
+    );
+
+    if (response && response.status === 200) {
+      onResponseSuccess(response);
+    }
+  };
+
+  const signUpSubmit = async _ => {
+    const response = await Api.post('/auth/sign_up', userData).catch(error => {
+      if (error?.response?.status === 400) {
+        const errors = error.response.data.errors;
+
+        for (let i = 0; i < errors.length; i++) window.alert(`${errors[i]}`);
+
         return;
       } else return error;
     });
 
     if (response && response.status === 200) {
-      const token = response.headers['access-token'];
-      const user = response?.data?.data[0];
-      if (token && user) {
-        Auth.authenticate(user, token);
-        history.push('/chat');
-      }
+      onResponseSuccess(response);
     }
+  };
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+    if (isLogin) await loginSubmit();
+    else await signUpSubmit();
   };
 
   return (
     <Container>
-      <LoginContainer>
-        <FormContainer>
-          <Form onSubmit={handleSubmit}>
-            <TitleContainer>
-              <ModalTitle>Sign In</ModalTitle>
-            </TitleContainer>
-
-            <FormGroup>
-              <FormLabel>Email address</FormLabel>
-              <FormControl
-                value={loginData.email}
-                onChange={e =>
-                  setLoginData({ ...loginData, email: e.target.value })
-                }
-                required
-                type="email"
-                placeholder="Enter email"
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <FormLabel>Password</FormLabel>
-              <FormControl
-                value={loginData.password}
-                onChange={e =>
-                  setLoginData({ ...loginData, password: e.target.value })
-                }
-                required
-                type="password"
-                placeholder="Enter password"
-              />
-            </FormGroup>
-
-            <Button type="submit" variant={'primary'} className="btn-block">
-              Submit
-            </Button>
-          </Form>
-        </FormContainer>
-      </LoginContainer>
+      <AuthContainer>
+        <AuthForm
+          handleSubmit={handleSubmit}
+          userData={userData}
+          setUserData={setUserData}
+          isLogin={isLogin}
+          setIsLogin={setIsLogin}
+        />
+      </AuthContainer>
     </Container>
   );
 };
