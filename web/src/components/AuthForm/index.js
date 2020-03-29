@@ -17,6 +17,11 @@ const AuthForm = ({
   isLogin,
   setIsLogin,
 }) => {
+  const handleUsernameChange = e => {
+    const value = e.target.value.replace(/[^A-Za-z]/gi, '');
+
+    setUserData({ ...userData, username: value });
+  };
   return (
     <FormContainer>
       <Form onSubmit={handleSubmit}>
@@ -26,14 +31,14 @@ const AuthForm = ({
 
         {!isLogin ? (
           <FormGroup>
-            <FormLabel>Name</FormLabel>
+            <FormLabel>Name(letters only)</FormLabel>
             <FormControl
               value={userData.username}
-              onChange={e =>
-                setUserData({ ...userData, username: e.target.value })
-              }
+              onChange={e => handleUsernameChange(e)}
               required
               type="text"
+              maxLength={15}
+              minLength={3}
               placeholder="Enter username"
             />
           </FormGroup>
