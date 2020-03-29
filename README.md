@@ -4,7 +4,8 @@
 
 ### Available features and flow:
 
-- Registered users can log in and talk with other users in a chatroom.
+- New users can sign up
+- Registered users can log in and talk with other users in a chatroom and then log out
 - Users can post messages as commands into the chatroom with the following format
 ``/stock=stock_code ``
 - When a user post a valid command, a decoupled bot will call the [Stooq API]( https://stooq.com/ "Stooq") using the received _stock_code_ to get a CSV with quote informations
@@ -16,7 +17,6 @@ the bot.
 
 ### Possible future features:
 - Multiple chat rooms and an option to choose a room or create a new room
-- A screen to new users sign up
 - Store room and chat data on DB (encrypt messages)
 - Show online users on screen
 
