@@ -1,8 +1,7 @@
 import { Column, Entity } from 'typeorm';
 import { sign } from 'jsonwebtoken';
-import { compare } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import BaseEntity from '../shared/entities/baseEntity';
-
 
 @Entity()
 export default class User extends BaseEntity {
@@ -23,5 +22,10 @@ export default class User extends BaseEntity {
   async checkPassword(inputPassWord: string): Promise<boolean> {
     const isPasswordMatch = await compare(inputPassWord, this.password);
     return isPasswordMatch;
+  }
+
+  async setPassword(inputPassWord: string): Promise<void> {
+    const pwdHash = await hash(inputPassWord, 8);
+    this.password = pwdHash;
   }
 }
