@@ -6,6 +6,7 @@ import LoginDTO from '../dtos/loginDTO';
 import { ILike } from '../../shared/findOperatorWithExtras';
 import { trimAndLower } from '../../../utils/stringUtils';
 import authConfig from '../../../config/auth/authConfig';
+import SignUpDTO from '../dtos/signUpDTO';
 
 @injectable()
 export default class UserService {
@@ -35,5 +36,39 @@ export default class UserService {
     await this.userRepository.update({ id: user.id }, user);
 
     return user;
+  }
+
+  async signUp(signUpDTO: SignUpDTO): Promise<boolean> {
+    const existingUser = await this.userRepository.findOne({
+      where: [
+        {
+          username: ILike(`%${trimAndLower(signUpDTO.username)}%`),
+        },
+        {
+          email: ILike(`%${trimAndLower(signUpDTO.email)}%`),
+        },
+      ],
+    });
+
+    if (existingUser) return false;
+
+    const newUser = new User();
+    newUser.email = signUpDTO.email;
+    newUser.username = signUpDTO.username;
+
+    await newUser.setPassword(signUpDTO.password);
+
+    await this.userRepository.insert(newUser);
+
+    return true;
+  }
+
+  async signOut(userId: string): Promise<boolean> {
+    const updated = await this.userRepository.update(
+      { id: userId },
+      { token: null }
+    );
+
+    return updated.affected ? true : false;
   }
 }
