@@ -31,6 +31,9 @@ This project use some popular libraries:
 4. Setup the environment variables:
     1. Open the file **.env.dev** in _src/config_
     2. Then change the value of the following properties according to yours:  
+    
+            
+        **IMPORTANT**: Every time you change the BOT address or port on BOT settings, you'll need to update the _BOT_API_ADDRESS_ in this *.env.dev* file. In the same way, every time you change the chat API address or _SERVER_PORT_ here you'll need to update that info in the frontend project. 
          
         ```env
 
@@ -67,8 +70,7 @@ This project use some popular libraries:
         AUTH_SECRET_KEY=663c49ee10402f47466f42b494d80b0e
         
         ```
-        
-***IMPORTANT***: Every time you change the BOT address or port on BOT settings, you'll need to update the BOT_API_ADDRESS. In the same way, every time you change the chat API address or port you'll need to update that info in the frontend project. 
+
     
 5. Finally you can run __yarn debug__ or __npm run debug__ to run in debug mode with nodemon or just __yarn start__ or __npm start__ to start the application
 
