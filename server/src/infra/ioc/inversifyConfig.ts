@@ -7,13 +7,13 @@ import { DATABASE_CONFIG } from '../../config/config';
 import UserService from '../../domain/user/services/userService';
 import User from '../../domain/user/user';
 
-import { getDbConnection } from '../data/getConnection';
+import { createDBConnection } from '../data/createDBConnection';
 import { getUserRepository } from '../data/repositories/userRepository';
 import BotService from '../http/botService';
 import RabbitMQService from '../queue/rabbitMqService';
 
 const bindings = new AsyncContainerModule(async bind => {
-  await getDbConnection(DATABASE_CONFIG);
+  await createDBConnection(DATABASE_CONFIG);
 
   bind<AxiosInstance>(InjectTYPES.Axios.AxiosInstance).toConstantValue(axios);
 
