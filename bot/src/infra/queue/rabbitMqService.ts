@@ -3,7 +3,7 @@ import * as rabbit from 'amqplib';
 
 import ProccessMessageDTO from '../../domain/quote/dtos/proccessMessageDTO';
 import RabbitMQConfig from '../../constants/types/rabbitMQConfig';
-import rabbitMQConfig from '../../config/queue/queueConfig';
+import {RABBIT_MQ_CONFIG} from '../../config/config';
 
 @injectable()
 export default class RabbitMQService {
@@ -11,8 +11,8 @@ export default class RabbitMQService {
   private readonly quotesQueue: string;
 
   constructor() {
-    this.quotesQueue = rabbitMQConfig.quoteQueue;
-    this.start(rabbitMQConfig);
+    this.quotesQueue = RABBIT_MQ_CONFIG.quoteQueue;
+    this.start(RABBIT_MQ_CONFIG);
   }
 
   private async start(rabbitConfig: RabbitMQConfig) {

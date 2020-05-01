@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import axios, { AxiosInstance } from 'axios';
 
 import InjectTYPES from '../../constants/types/injectTypes';
-import { connectionConfig } from '../../config/db/dbConfig';
+import { DATABASE_CONFIG } from '../../config/config';
 import UserService from '../../domain/user/services/userService';
 import User from '../../domain/user/user';
 
@@ -13,7 +13,7 @@ import BotService from '../http/botService';
 import RabbitMQService from '../queue/rabbitMqService';
 
 const bindings = new AsyncContainerModule(async bind => {
-  await getDbConnection(connectionConfig);
+  await getDbConnection(DATABASE_CONFIG);
 
   bind<AxiosInstance>(InjectTYPES.Axios.AxiosInstance).toConstantValue(axios);
 

@@ -3,7 +3,7 @@ import * as rabbit from 'amqplib';
 
 import ProccessMessageDTO from './proccessMessageDTO';
 import RabbitMQConfig from '../../constants/types/rabbitMQConfig';
-import rabbitMQConfig from '../../config/queue/queueConfig';
+import { RABBIT_MQ_CONFIG } from '../../config/config';
 import * as bufferUtils from '../../utils/bufferUtils';
 
 @injectable()
@@ -13,8 +13,8 @@ export default class RabbitMQService {
   private readonly preFetchAmount: number;
 
   constructor() {
-    this.quotesQueue = rabbitMQConfig.quoteQueue;
-    this.preFetchAmount = rabbitMQConfig.preFetchAmount;
+    this.quotesQueue = RABBIT_MQ_CONFIG.quoteQueue;
+    this.preFetchAmount = RABBIT_MQ_CONFIG.preFetchAmount;
   }
 
   private async start(rabbitConfig: RabbitMQConfig) {
@@ -58,7 +58,7 @@ export default class RabbitMQService {
     onMessageAction: (message: ProccessMessageDTO) => any
   ): Promise<void> {
     try {
-      await this.start(rabbitMQConfig);
+      await this.start(RABBIT_MQ_CONFIG);
 
       const channel = await this.createChannel();
       await this.ensureQueue(channel);

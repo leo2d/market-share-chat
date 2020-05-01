@@ -3,7 +3,7 @@ import express from 'express';
 import { InversifyExpressServer } from 'inversify-express-utils';
 
 import setupContainer from './infra/ioc/inversifyConfig';
-import { port } from './config/serverConfig';
+import { SERVER_PORT } from './config/config';
 
 import './presentation/controllers';
 
@@ -20,7 +20,7 @@ import './presentation/controllers';
 
   const app = server.build();
 
-  app.listen(port);
+  app.listen(SERVER_PORT);
 
-  console.log(`Bot is running at http://127.0.0.1:${port}/`);
+  console.log(`Bot is running at http://127.0.0.1:${SERVER_PORT}/`);
 })();
