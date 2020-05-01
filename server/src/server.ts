@@ -44,9 +44,9 @@ import RabbitMQService from './infra/queue/rabbitMqService';
   const rabbitMQService = container.get<RabbitMQService>(
     InjectTYPES.services.RabbitMQService
   );
-  rabbitMQService.listenForMessages(
+  await rabbitMQService.listenForMessages(
     socketManager.onReceiveMessageFromBroker.bind(socketManager)
   );
 
-  console.log(`Server running at http://127.0.0.1:${SERVER_PORT}/`);
+  console.log(`Server: running at http://127.0.0.1:${SERVER_PORT}/`);
 })();
