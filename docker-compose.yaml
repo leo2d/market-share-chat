@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
   postgres:
-    container_name: postgressql_container
+    container_name: mkt_chat_postgressql_container
     image: postgres
     hostname: "postgres"
     environment:
@@ -14,9 +14,11 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+    networks: 
+      - mkt_chat_backend
 
   rabbit:
-    container_name: rabbit_container
+    container_name: mkt_chat_rabbit_container
     image: "rabbitmq:3-management"
     hostname: "rabbit"
     environment:
@@ -30,7 +32,14 @@ services:
       - "15672:15672"
       - "5672:5672"
     restart: unless-stopped
+    networks: 
+      - mkt_chat_backend
 
 volumes:
   postgres:
   rabbit:
+
+networks: 
+  mkt_chat_backend:
+    driver: bridge
+
