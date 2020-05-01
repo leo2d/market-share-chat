@@ -5,7 +5,7 @@ import InjectTYPES from '../../../constants/types/injectTypes';
 import LoginDTO from '../dtos/loginDTO';
 import { ILike } from '../../shared/findOperatorWithExtras';
 import { trimAndLower } from '../../../utils/stringUtils';
-import authConfig from '../../../config/auth/authConfig';
+import { AUTH_CONFIG } from '../../../config/config';
 import SignUpDTO from '../dtos/signUpDTO';
 
 @injectable()
@@ -31,7 +31,7 @@ export default class UserService {
     const isPasswordMatch = await user.checkPassword(loginDTO.password);
     if (!isPasswordMatch) return null;
 
-    user.signIn(authConfig.scretKey, authConfig.expiresIn);
+    user.signIn(AUTH_CONFIG.scretKey, AUTH_CONFIG.expiresIn);
 
     await this.userRepository.update({ id: user.id }, user);
 
