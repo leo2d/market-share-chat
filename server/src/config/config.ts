@@ -26,11 +26,11 @@ export const SERVER_PORT = process.env.SERVER_PORT;
 export const BOT_API_ADDRESS = process.env.BOT_API_ADDRESS;
 
 export const DATABASE_CONFIG: DbConfig = {
-  DATABASE_HOST: process.env.DATABASE_HOST,
-  DATABASE_USER: process.env.DATABASE_USER,
-  DATABASE_PORT: parseInt(process.env.DATABASE_PORT),
-  DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
-  DATABASE_DB: process.env.DATABASE_DB,
+  host: process.env.DATABASE_HOST,
+  username: process.env.DATABASE_USER,
+  port: parseInt(process.env.DATABASE_PORT),
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_DB,
 };
 
 export const RABBIT_MQ_CONFIG: RabbitMQConfig = {
