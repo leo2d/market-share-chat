@@ -8,7 +8,7 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import setupContainer from './infra/ioc/inversifyConfig';
 import './presentation/controllers';
 import SocketManager from './infra/socket/socketManager';
-import { port } from './config/serverConfig';
+import { SERVER_PORT } from './config/config';
 import InjectTYPES from './constants/types/injectTypes';
 import BotService from './infra/http/botService';
 import RabbitMQService from './infra/queue/rabbitMqService';
@@ -32,7 +32,7 @@ import RabbitMQService from './infra/queue/rabbitMqService';
 
   const app = server.build();
 
-  const serverInstance = app.listen(port);
+  const serverInstance = app.listen(SERVER_PORT);
 
   const socketIOServer = SocketIO(serverInstance);
 
@@ -48,6 +48,5 @@ import RabbitMQService from './infra/queue/rabbitMqService';
     socketManager.onReceiveMessageFromBroker.bind(socketManager)
   );
 
-  console.log(`Server running at http://127.0.0.1:${port}/`);
-  
+  console.log(`Server running at http://127.0.0.1:${SERVER_PORT}/`);
 })();

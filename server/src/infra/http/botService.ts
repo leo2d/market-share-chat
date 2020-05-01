@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 
 import InjectTYPES from '../../constants/types/injectTypes';
 import QuoteRequestDTO from './quoteRequestDTO';
-import { botApiAddress } from '../../config/externals/endpoints';
+import { BOT_API_ADDRESS } from '../../config/config';
 
 @injectable()
 export default class BotService {
@@ -15,7 +15,7 @@ export default class BotService {
 
   async sendToBot(quoteRequest: QuoteRequestDTO): Promise<boolean> {
     const response = await this.httpClient
-      .post(`${botApiAddress}quotes`, quoteRequest)
+      .post(`${BOT_API_ADDRESS}quotes`, quoteRequest)
       .catch(error => {
         if (error?.response?.status >= 400) {
           console.log('error when send to bot: ', error);
